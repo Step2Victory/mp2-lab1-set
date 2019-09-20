@@ -13,7 +13,7 @@
 using namespace std;
 
 typedef unsigned int TELEM;
-
+const int BitSize = sizeof(TELEM) * 8;
 class TBitField
 {
 private:
