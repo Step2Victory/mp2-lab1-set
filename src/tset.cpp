@@ -112,10 +112,13 @@ TSet TSet::operator~(void) // дополнение
 
 istream &operator>>(istream &istr, TSet &s) // ввод
 {
+	istr >> s.BitField;
+	s.MaxPower = s.BitField.GetLength();
 	return istr;
 }
 
 ostream& operator<<(ostream &ostr, const TSet &s) // вывод
 {
+	ostr << s.BitField;
 	return ostr;
 }
