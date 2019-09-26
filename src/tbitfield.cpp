@@ -30,7 +30,7 @@ TBitField::TBitField(const TBitField &bf) // конструктор копиро
 
 TBitField::~TBitField()
 {
-	//delete[] pMem;
+	delete[] pMem;
 }
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
@@ -83,8 +83,11 @@ int TBitField::GetBit(const int n) const // получить значение б
 
 TBitField& TBitField::operator=(const TBitField &bf) // присваивание
 {
+	if (this == &bf)
+		return *this;
 	MemLen = bf.MemLen;
 	BitLen = bf.BitLen;
+	delete[] pMem;
 	pMem = new TELEM[MemLen];
 	for (int i = 0; i < MemLen; ++i)
 		pMem[i] = bf.pMem[i];
@@ -147,10 +150,22 @@ TBitField TBitField::operator~(void) // отрицание
 
 istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
+	string s;
+	istr >> s;
+	TBitField tmp(s.size());
+	for (int i = 0; i < s.size(); ++i)
+		if (s[i] - '0')
+			tmp.SetBit(i);
 	return istr;
 }
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
+	for (int i = 0; i < bf.GetLength(); ++i)
+	{
+		if (i % BitSize == 0)
+			ostr << " ";
+		ostr << bf.GetBit(i);
+	}
 	return ostr;
 }
